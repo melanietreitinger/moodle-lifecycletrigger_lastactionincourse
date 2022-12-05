@@ -24,7 +24,25 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace lifecycletrigger_lastactionincourse\task;
 
-$plugin->version  = 2022120504;
-$plugin->component = 'lifecycletrigger_lastactionincourse';
+class get_lastactionincourse_task extends \core\task\scheduled_task {
+    /**
+     * Return the task's name as shown in admin screens.
+     *
+     * @return string
+     */
+    public function get_name() {
+        return get_string('pluginname', 'lifecycletrigger_lastactionincourse');
+    }
+
+    /**
+     * Execute the task.
+     */
+    public function execute() {
+        global $DB;
+        $DB->set_debug(true);
+
+        mtrace("get_lastactionincourse_task started");
+    }
+}

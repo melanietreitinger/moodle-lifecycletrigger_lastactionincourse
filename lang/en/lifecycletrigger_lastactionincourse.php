@@ -17,10 +17,15 @@
 /**
  * Lang strings for start date delay trigger
  *
- * @package tool_lifecycle_trigger
- * @subpackage startdatedelay
- * @copyright  2017 Tobias Reischmann WWU
+ * @package lifecycletrigger_lastactionincourse
+ * @subpackage lastactionincourse
+ * @copyright  2022 Melanie Treitinger, Ruhr-Universität Bochum <melanie.treitinger@ruhr-uni-bochum.de>
+ *             based on 2017 Tobias Reischmann WWU
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Dummy trigger';
+$string['pluginname'] = 'Last action in course trigger';
+$string['lastactionincoursedelay'] = 'Time since last activity in a course';
+$string['lastactionincoursedelay_help'] = 'The trigger will be invoked if the time passed since the last activity in a course is
+longer than this delay.<br />Activity means something like posting to a forum, submitting a file or undertaking a quiz, not just
+clicking around.';
