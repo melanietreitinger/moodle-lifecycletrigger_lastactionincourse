@@ -24,7 +24,16 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2022120507;
-$plugin->component = 'lifecycletrigger_lastactionincourse';
+$tasks = [
+        [
+                'classname' => 'lifecycletrigger_lastactionincourse\task\get_lastactionincourse_task',
+                'blocking' => 0,
+                'minute' => '0',
+                'hour' => '3',
+                'day' => '*',
+                'month' => '*',
+                'dayofweek' => '*',
+        ],
+];

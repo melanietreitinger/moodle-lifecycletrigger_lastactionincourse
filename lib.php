@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Interface for the subplugintype trigger
- * It has to be implemented by all subplugins.
+ * Life Cycle Last Action in Course Trigger
  *
  * @package lifecycletrigger_lastactionincourse
  * @subpackage lastactionincourse
@@ -26,7 +25,9 @@
  */
 namespace tool_lifecycle\trigger;
 
-use tool_lifecycle\response\trigger_response;
+use tool_lifecycle\local\manager\settings_manager;
+use tool_lifecycle\local\response\trigger_response;
+use tool_lifecycle\settings_type;
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../lib.php');
@@ -39,16 +40,29 @@ class lastactionincourse extends base_automatic {
 
     /**
      * Checks the course and returns a repsonse, which tells if the course should be further processed.
-     * @param $course object to be processed.
-     * @param $triggerid int id of the trigger instance.
+     * @param object $course to be processed.
+     * @param int $triggerid id of the trigger instance.
      * @return trigger_response
      */
     public function check_course($course, $triggerid) {
         return trigger_response::trigger();
     }
 
+    /**
+     * Specifies the condition on which the trigger is called.
+     * @param int $triggerid
+     * @return array
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
     public function get_course_recordset_where($triggerid) {
         global $DB;
+        $delay = settings_manager::get_settings($triggerid, settings_type::TRIGGER)['lastactionincoursedelay'];
+        $where = "{course}.id IN
+                    (SELECT courseid FROM {lifecycletrigger_lastaction} WHERE timemodified < :lastactionincoursedelay)";
+        $params = array(
+                "lastactionincoursedelay" => time() - $delay,
+        );
 
         return array($where, $params);
     }
@@ -89,6 +103,10 @@ class lastactionincourse extends base_automatic {
         $mform->setDefault('lastactionincoursedelay', $default);
     }
 
+    /**
+     * Return the subplugin name.
+     * @return string
+     */
     public function get_subpluginname() {
         return 'lastactionincourse';
     }
